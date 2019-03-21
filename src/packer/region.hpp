@@ -3,41 +3,37 @@
 
 #include <algorithm>
 #include <cassert>
+#include <iostream>
 #include <type_traits>
 
 namespace impac {
     // Templated rectangle class used by the packing algorithm to define a
     // (x, y, width, height) region of an image. The template parameter T should
     // be an arithmetic type. Width and height are always >= 0.
-    template<
-        typename T,
-        typename U,
-        typename std::enable_if_t<std::is_arithmetic_v<U>>>
+    template<typename T, typename U>
     class region {
     public:
+        using type = region<T, U>;
+
         // No default constructor
         region() = delete;
 
-        // Default copy & move semantics
-        region(const region&) = default;
-        region& operator=(const region&) = default;
-        region(const region&&) = default;
-        region& operator=(const region&&) = default;
+        // Default copy/move semantics.
+        region(const type&) = default;
+        region& operator=(const type&) = default;
+        region(type&&) = default;
+        region& operator=(type&&) = default;
 
         // Construct a region with a tag, x, y, width, and height
-        region(const T& tag, U x, U y, U width, U height)
-            : tag_{tag},
-              x_{x},
-              y_{y},
-              width_{width},
-              height_{height} 
+        region(T tag, U x, U y, U width, U height)
+            : tag_{tag}, x_{x}, y_{y}, width_{width}, height_{height} 
         {
             assert(width_ >= 0);
             assert(height_ >= 0);
         }
 
         // Determines if the given region intersects with this.
-        bool intersects(const region<T, U>& that)
+        bool intersects(const type& that)
         {
             return (
                 that.x_ < x_ + width_ && x_ < that.x_ + that.width_ &&
@@ -59,12 +55,23 @@ namespace impac {
         void set_y(U y) { y_ = y; }
         void set_position(U x, U y) { x_ = x; y_ = y; }
     private:
-        const T tag_;     // tag used to identify region
-        U x_;             // left x-position of the region
-        U y_;             // top y-position of the region
-        const U width_;   // width of the region (>= 0)
-        const U height_;  // height of the region (>= 0)
+        T tag_;     // tag used to identify region
+        U x_;       // left x-position of the region
+        U y_;       // top y-position of the region
+        U width_;   // width of the region (>= 0)
+        U height_;  // height of the region (>= 0)
     };
+
+    template<typename T, typename U>
+    std::ostream& operator<<(std::ostream& os, const region<T, U>& region)
+    {
+        os << "{tag = '" << region.tag()
+           << "', x = " << region.x()
+           << ", y = " << region.y()
+           << ", width = " << region.width()
+           << ", height = " << region.height() << '}';
+        return os;
+    }
 }
 
 #endif

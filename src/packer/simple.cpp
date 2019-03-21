@@ -1,12 +1,10 @@
 #include <algorithm>
 #include <cassert>
-#include "first_fit.hpp"
-
-#include "simple_packer.hpp"
+#include "simple.hpp"
 
 namespace impac {
     simple_packer::simple_packer(
-        std::vector<region<std::string, int>>&& regions,
+        std::vector<region_type>&& regions,
         int max_width,
         int max_height)
         : regions_{regions},
@@ -30,33 +28,33 @@ namespace impac {
                     std::min(r2.width(), r2.height()));
             });
 
-        auto i = unsigned{0};       // region index currently being placed
-        auto region = regions_[i];  // region currently being placed
+        auto i = unsigned{0};   // region index currently being placed
+        auto r = &regions_[i];  // region currently being placed
 
         // Scan through available space
         for (auto y = int{0}; y < max_height_; ++y) {
             // If vertical space isn't adequate, terminate loop.
-            if (y + region.height() > max_height_)
+            if (y + r->height() > max_height_)
                 break;
             for (auto x = int{0}; x < max_width_; ++x) {
                 // If horizontal space left isn't adequate, go to next row.
-                if (x + region.width() > max_width_)
+                if (x + r->width() > max_width_)
                     break;
                 // Check if region intersects with any previously placed region.
                 auto placed = true;
-                region.set_position(x, y);
+                r->set_position(x, y);
                 for (auto j = unsigned{0}; j < i; ++j)
-                    if (region.intersects(regions_[j]))
+                    if (r->intersects(regions_[j]))
                         placed = false;
                 if (placed) {
                     // Update the total width & total height consumed
-                    total_width = std::max(total_width, region.right());
-                    total_height = std::max(total_height, region.bottom());
+                    total_width = std::max(total_width, r->right());
+                    total_height = std::max(total_height, r->bottom());
                     // If all regions are placed, indicate success.
                     if (++i == regions_.size())
                         return true;
-                    x += region.width();
-                    region = regions_[i];
+                    x += r->width();
+                    r = &regions_[i];
                 }
             }
         }
