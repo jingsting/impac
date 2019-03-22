@@ -6,7 +6,14 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package(ImageMagick REQUIRED COMPONENTS Magick++)
 
-add_executable(impac src/impac.cpp src/packer/simple.cpp)
+set(IMPAC_SOURCE_FILES
+    src/impac.cpp
+    src/sprite.cpp
+    src/sprite_sheet.cpp
+    src/pack/first_fit.cpp
+    )
+
+add_executable(impac ${IMPAC_SOURCE_FILES})
 target_compile_definitions(impac PRIVATE
     MAGICKCORE_HDRI_ENABLE=0
     MAGICKCORE_QUANTUM_DEPTH=16
