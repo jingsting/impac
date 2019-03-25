@@ -4,6 +4,7 @@
 Im(age) Pac(ker)
 
 ## Decription:
+This project takes individual images and creates a sprite sheet or texture atlas. The goal of this project is to reduce load time when one needs to upload many images into an application or program. This is done by taking the images needed and placing them together in such a way that they fit into the smallest single image possible. This project is a command line tool and can be built on any platform. 
 
 ## Building
 
