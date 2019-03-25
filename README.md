@@ -21,10 +21,14 @@ $ cd build
 $ cmake ..
 $ cmake --build .
 ```
+## Communication
+* Our [mattermost channel](https://chat.rcos.io/open-source/channels/impac) is a great place to get in contact with us, ask questions, and see the direction of our project!
+* Feel free to check out our [RPI Observatory page](https://rcos.io/projects/ethanlynn/impac/profile) for more information regarding us
+
 
 ## Contributing
-
-Please read [CODE_OF_CONDUCT.md](https://github.com/ethanlynn/impac/blob/master/CODE_OF_CONDUCT.md) for details on our code of conduct, and the process for submitting issues to us.
+* * Please visit our [issue tracker](https://github.com/ethanlynn/impac/issues) to see some current bugs we are solving
+* Please read [CODE_OF_CONDUCT.md](https://github.com/ethanlynn/impac/blob/master/CODE_OF_CONDUCT.md) for details on our code of conduct, and the process for submitting issues to us.
 
 ## Authors
 
