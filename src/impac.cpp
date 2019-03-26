@@ -24,6 +24,7 @@
     if ((dir = opendir (argv[1])) != NULL) {
         /* print all the files and directories within directory */
         while ((ent = readdir (dir)) != NULL) {
+            if (ent->d_name[0] == '.') continue;
             Image img;
             // read image using magick
             img.read( ent->d_name );
@@ -37,6 +38,7 @@
             heights.push_back(height);
             images.push_back(img);
             printf ("%s: %d x %d \n", ent->d_name, width, height);
+            // printf ("%s \n", ent->d_name);
         }
         closedir (dir);
     } else {
