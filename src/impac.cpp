@@ -13,6 +13,7 @@
     }
 
     // initialize lists of images and their dimensions
+    // this may not be needed
     InitializeMagick(*argv);
     vector<Image> images;
     vector<int> widths; 
@@ -24,10 +25,15 @@
     if ((dir = opendir (argv[1])) != NULL) {
         /* print all the files and directories within directory */
         while ((ent = readdir (dir)) != NULL) {
+            // skipping . and .. in the directory
             if (ent->d_name[0] == '.') continue;
+
+            //initialize the image object
             Image img;
+
             // read image using magick
-            img.read( ent->d_name );
+            string path = string(argv[1])+string(ent->d_name);
+            img.read(path);
 
             // get width and height in pixels
             int width = img.columns();

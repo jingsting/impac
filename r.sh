@@ -1,2 +1,2 @@
 cd build
-./impac ../resource/sample1
+./impac ../resource/sample1/
