@@ -21,6 +21,16 @@ $ cd build
 $ cmake ..
 $ cmake --build .
 ```
+
+### Running
+
+Go to build directory if not already(```cd build```),  
+
+``` 
+$ ./impac /path/to//directory
+```
+
+
 ## Communication
 * Our [mattermost channel](https://chat.rcos.io/open-source/channels/impac) is a great place to get in contact with us, ask questions, and see the direction of our project!
 * Feel free to check out our [RPI Observatory page](https://rcos.io/projects/ethanlynn/impac/profile) for more information regarding us
