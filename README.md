@@ -24,7 +24,7 @@ $ cmake --build .
 
 ### Running
 
-Go to build directory if not already(```cd build```),  
+Go to build directory if not already(`cd build`),  
 
 ``` 
 $ ./impac /path/to//directory
