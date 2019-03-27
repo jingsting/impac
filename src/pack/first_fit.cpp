@@ -1,5 +1,5 @@
 #include <algorithm>
-#include "first_fit.hpp"
+#include "pack/first_fit.hpp"
 
 bool impac::pack::first_fit(
     sprite_sheet& sprite_sheet,
