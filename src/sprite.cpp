@@ -2,10 +2,10 @@
 
 namespace impac {
     sprite::sprite(const image_type& image)
-        : image_{image}, x{0}, y{0} {}
+        : x{0}, y{0}, image_{image} {}
 
     sprite::sprite(const image_type& image, int x, int y)
-        : image_{image}, x{x}, y{y} {}
+        : x{x}, y{y}, image_{image} {}
 
     bool sprite::intersects(const sprite& that)
     {
