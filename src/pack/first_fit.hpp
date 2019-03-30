@@ -1,7 +1,7 @@
 #ifndef IMPAC_PACK_FIRST_FIT_HPP
 #define IMPAC_PACK_FIRST_FIT_HPP
 
-#include "../sprite_sheet.hpp"
+#include "sprite_sheet.hpp"
 
 namespace impac {
     namespace pack {
