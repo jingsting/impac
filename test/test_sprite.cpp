@@ -52,3 +52,38 @@ TEST_CASE("sprite area is calculated correctly", "[sprite]") {
     REQUIRE(s1.area() == 600);
     REQUIRE(s2.area() == 1200);
 }
+
+TEST_CASE("sprite set position", "[sprite]") {
+    auto s = impac::sprite{Magick::Image{"10x10", "black"}};
+    s.set_position(10, 10);
+    REQUIRE(s.x == 10);
+    REQUIRE(s.y == 10);
+    s.set_position(3, 4);
+    REQUIRE(s.x == 3);
+    REQUIRE(s.y == 4);
+    s.set_position(-19, -34);
+    REQUIRE(s.x == -19);
+    REQUIRE(s.y == -34);
+}
+
+TEST_CASE("sprite intersection", "[sprite]") {
+    auto s1 = impac::sprite{Magick::Image{"10x20", "black"}};
+    auto s2 = impac::sprite{Magick::Image{"20x10", "black"}};
+
+    // Test every possible intersecting position between s1 and s2, and the
+    // boundary conditions of the intersection problem.
+    for (auto x = int{-20}; x <= 10; ++x) {
+        for (auto y = int{-10}; y <= 20; ++y) {
+            s2.set_position(x, y);
+            if (x == -20 || x == 10 || y == -10 || y == 20) {
+                // Sprite boundaries are directly adjacent but don't intersect
+                REQUIRE(s1.intersects(s2) == false);
+                REQUIRE(s2.intersects(s1) == false);
+            } else {
+                // Sprite boundaries overlap
+                REQUIRE(s1.intersects(s2) == true);
+                REQUIRE(s2.intersects(s1) == true);
+            }
+        }
+    }
+}

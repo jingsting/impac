@@ -32,7 +32,7 @@ namespace impac {
             const std::unordered_map<std::string, image_type>& images,
             int width,
             int height);
-        
+
         // Adds a sprite with an associated tag value if that tag doesn't
         // already exists. Returns a boolean indicating whether or not the
         // operation was successful.
