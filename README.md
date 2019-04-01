@@ -37,8 +37,8 @@ $ ./impac /path/to//directory
 
 
 ## Contributing
-* * Please visit our [issue tracker](https://github.com/ethanlynn/impac/issues) to see some current bugs we are solving
-* Please read [CODE_OF_CONDUCT.md](https://github.com/ethanlynn/impac/blob/master/CODE_OF_CONDUCT.md) for details on our code of conduct, and the process for submitting issues to us.
+* visit our [issue tracker](https://github.com/ethanlynn/impac/issues) to see some current bugs we are solving
+* Please read our [CODE_OF_CONDUCT.md](https://github.com/ethanlynn/impac/blob/master/CODE_OF_CONDUCT.md) for details on our code of conduct, and the process for submitting issues to us.
 
 ## Authors
 
