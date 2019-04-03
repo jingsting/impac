@@ -1,0 +1,20 @@
+language: cpp
+os: linux
+dist: xenial
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-8
+    - g++-8
+    - libboost-all-dev
+    - libmagick++-dev
+script:
+- export CC=/usr/bin/gcc-8
+- export CXX=/usr/bin/g++-8
+- mkdir build
+- cd build
+- cmake ..
+- make
+- ./test
