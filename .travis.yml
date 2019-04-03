@@ -1,24 +1,17 @@
 language: cpp
-os:
-- linux
+os: linux
 dist: xenial
-compiler:
-- clang
-before_install:
-  # Install the Boost C++ suite of libraries
-  - sudo apt-get update
-  - sudo apt-get -y install libboost-all-dev
-  - sudo apt-get install libmagick++-dev
-  # Install the latest version of ImageMagick from soucre
-  # - wget http://www.imagemagick.org/download/ImageMagick.tar.gz
-  # - tar -xvf ImageMagick.tar.gz
-  # - cd ImageMagick-7.0.*
-  # - CC="gcc -std=gnu99" ./configure
-  # - make
-  # - sudo make install
-  # - sudo ldconfig /usr/local/lib
-  # - cd $TRAVIS_BUILD_DIR
+apt:
+  sources:
+  - ubuntu-toolchain-r-test
+  packages:
+  - gcc-8
+  - g++-8
+  - libboost-all-dev
+  - libmagick++-dev
 script:
+- EXPORT CC=/usr/bin/gcc-8
+- EXPORT CXX=/usr/bin/g++-8
 - mkdir build
 - cd build
 - cmake ..
