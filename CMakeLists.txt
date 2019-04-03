@@ -28,11 +28,8 @@ add_library(libimpac
     src/sprite_sheet.cpp
     src/pack/first_fit.cpp
     )
-# Compile with all warnings
 target_compile_options(libimpac PRIVATE -Wall)
-# Compile with C++17 features
 target_compile_features(libimpac PUBLIC cxx_std_17)
-# Set include directory to ./include/impac
 target_include_directories(libimpac PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
     )
@@ -45,6 +42,7 @@ target_link_libraries(libimpac PUBLIC
 # Main executable target
 add_executable(impac src/impac.cpp)
 target_compile_options(impac PRIVATE -Wall)
+target_compile_features(impac PRIVATE cxx_std_17)
 target_link_libraries(impac libimpac)
 
 # Test executable target
@@ -54,4 +52,6 @@ add_executable(test
     test/test_sprite_sheet.cpp
     test/test_pack_first_fit.cpp
     )
+target_compile_options(test PRIVATE -Wall)
+target_compile_features(test PRIVATE cxx_std_17)
 target_link_libraries(test PRIVATE libimpac Catch2::Catch)
