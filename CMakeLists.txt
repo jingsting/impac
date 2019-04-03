@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.8)
 
 # Allow CMake to find modules in the cmake directory
 project(impac VERSION 1.0.0 LANGUAGES CXX)
