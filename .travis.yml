@@ -4,12 +4,18 @@ os:
 dist: xenial
 compiler:
 - clang
-addons:
-  apt:
-    update: true
-    packages:
-    - imagemagick
-    - libboost-dev
+before_install:
+  # Install the Boost C++ suite of libraries
+  - sudo apt-get update
+  - sudo apt-get -y install libboost-all-dev
+  # Install the latest version of ImageMagick from soucre
+  - wget http://www.imagemagick.org/download/ImageMagick.tar.gz
+  - tar -xvf ImageMagick.tar.gz
+  - cd ImageMagick-7.0.*
+  - ./configure --prefix=/usr
+  - make
+  - sudo make install
+  - sudo ldconfig /usr/local/lib
 script:
 - mkdir build
 - cd build
