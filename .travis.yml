@@ -1,13 +1,13 @@
 language: cpp
 os:
 - linux
+dist: xenial
 compiler:
 - clang
 addons:
   apt:
     update: true
     packages:
-    - cmake
     - imagemagick
     - libboost-dev
 script:
