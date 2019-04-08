@@ -67,15 +67,15 @@ TEST_CASE("sprite set position", "[sprite]") {
 }
 
 TEST_CASE("sprite intersection", "[sprite]") {
-    auto s1 = impac::sprite{Magick::Image{"10x20", "black"}};
+    auto s1 = impac::sprite{Magick::Image{"10x20", "black"}, 20, 10};
     auto s2 = impac::sprite{Magick::Image{"20x10", "black"}};
 
     // Test every possible intersecting position between s1 and s2, and the
     // boundary conditions of the intersection problem.
-    for (auto x = int{-20}; x <= 10; ++x) {
-        for (auto y = int{-10}; y <= 20; ++y) {
+    for (auto x = size_t{0}; x <= 30; ++x) {
+        for (auto y = size_t{0}; y <= 30; ++y) {
             s2.set_position(x, y);
-            if (x == -20 || x == 10 || y == -10 || y == 20) {
+            if (x == 0 || x == 30 || y == 0 || y == 30) {
                 // Sprite boundaries are directly adjacent but don't intersect
                 REQUIRE(s1.intersects(s2) == false);
                 REQUIRE(s2.intersects(s1) == false);
