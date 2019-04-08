@@ -87,3 +87,14 @@ TEST_CASE("sprite intersection", "[sprite]") {
         }
     }
 }
+
+TEST_CASE("sprite JSON serialization", "[sprite]") {
+    auto sprite = impac::sprite{Magick::Image{"3x4", "black"}};
+    sprite.set_position(10, 20);
+    auto j = json(sprite);
+    REQUIRE(j.dump().size() == std::string{"{\"x\":10,\"y\":20,\"width\":3,\"height\":4}"}.size());
+    REQUIRE(j.at("x") == 10);
+    REQUIRE(j.at("y") == 20);
+    REQUIRE(j.at("width") == 3);
+    REQUIRE(j.at("height") == 4);
+}

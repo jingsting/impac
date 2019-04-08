@@ -67,6 +67,11 @@ namespace impac {
         return sprites_;
     }
 
+    const sprite_sheet::sprites_type& sprite_sheet::sprites() const
+    {
+        return sprites_;
+    }
+
     size_t sprite_sheet::width() const { return width_; }
 
     size_t sprite_sheet::height() const { return height_; }
@@ -111,11 +116,9 @@ namespace impac {
         assert(0 <= consumed_height_ && consumed_height_ <= height_);
     }
 
-/*
     void to_json(json& j, const sprite_sheet& ss)
     {
         assert(ss.is_packed());
-        j = json{{"frames", ss.sprites()}};
+        j["frames"] = ss.sprites();
     }
-*/
 }

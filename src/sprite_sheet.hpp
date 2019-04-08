@@ -3,6 +3,8 @@
 
 #include <unordered_map>
 #include "sprite.hpp"
+#include "json.hpp"
+using json = nlohmann::json;
 
 namespace impac {
     // Represents a set of sprites and the maximum boundaries they can be packed
@@ -42,6 +44,7 @@ namespace impac {
 
         // Gets the sprite sheet's map of sprites.
         sprites_type& sprites();
+        const sprites_type& sprites() const;
 
         // Gets the sprite sheet's maximum width.
         size_t width() const;
@@ -100,10 +103,8 @@ namespace impac {
         bool is_packed_;          // has pack() been called yet
     };
 
-/*
     // JSON serialization of sprite sheets.
     void to_json(json& j, const sprite_sheet& ss);
-*/
 }
 
 #endif // IMPAC_SPRITE_SHEET_HPP

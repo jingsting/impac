@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <Magick++.h>
+#include "json.hpp"
+using json = nlohmann::json;
 
 namespace impac {
     // Represents a single sprite on a sprite sheet with an image and its (x, y)
@@ -60,10 +62,8 @@ namespace impac {
     // Debug formatting of sprite objects.
     std::ostream& operator<<(std::ostream& os, const sprite& s);
 
-/*
     // JSON serialization of sprite objects.
     void to_json(json& j, const sprite& s);
-*/
 }
 
 #endif // IMPAC_SPRITE_HPP

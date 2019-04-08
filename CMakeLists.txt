@@ -22,6 +22,12 @@ set_target_properties(Catch2::Catch PROPERTIES
     INTERFACE_INCLUDE_DIRECTORIES ${PROJECT_SOURCE_DIR}/extern/catch2
     )
 
+# Library interface for Nlohmann::json
+add_library(nlohmann_json::nlohmann_json INTERFACE IMPORTED)
+set_target_properties(nlohmann_json::nlohmann_json PROPERTIES
+    INTERFACE_INCLUDE_DIRECTORIES ${PROJECT_SOURCE_DIR}/extern/nlohmann
+    )
+
 # Main static library to be linked by impac executable and test exectuable
 add_library(libimpac
     src/sprite.cpp
@@ -37,6 +43,7 @@ target_include_directories(libimpac PUBLIC
 target_link_libraries(libimpac PUBLIC
     Boost::filesystem
     ImageMagick::Magick++
+    nlohmann_json::nlohmann_json
     )
 
 # Main executable target

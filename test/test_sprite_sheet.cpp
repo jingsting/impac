@@ -60,8 +60,22 @@ TEST_CASE("sprite sheet image creation", "[sprite_sheet]") {
     auto sprite_sheet = impac::sprite_sheet{100, 100};
     sprite_sheet.add_sprite("sprite1", std::move(sprite1));
     sprite_sheet.add_sprite("sprite2", std::move(sprite2));
-    REQUIRE(sprite_sheet.pack(impac::pack::first_fit) == true);
-    auto composite_image = sprite_sheet.image(true);
-    REQUIRE(composite_image.columns() == 20);
-    REQUIRE(composite_image.rows() == 10);
+    if (sprite_sheet.pack(impac::pack::first_fit) == true) {
+        auto composite_image = sprite_sheet.image(true);
+        REQUIRE(composite_image.columns() == 20);
+        REQUIRE(composite_image.rows() == 10);
+    }
+}
+
+TEST_CASE("sprite sheet JSON serialization", "[sprite_sheet]") {
+    auto sprite_sheet = impac::sprite_sheet{100, 100};
+    sprite_sheet.add_sprite("sprite1", impac::sprite{{"10x10", "black"}});
+    sprite_sheet.add_sprite("sprite2", impac::sprite{{"10x10", "white"}});
+    sprite_sheet.pack(impac::pack::first_fit);
+    auto j = json(sprite_sheet);
+    auto frames = j["frames"];
+    for (auto& [_, value] : frames.items()) {
+        REQUIRE(value.at("width") == 10);
+        REQUIRE(value.at("height") == 10);
+    }
 }

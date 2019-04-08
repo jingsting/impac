@@ -40,14 +40,11 @@ namespace impac {
                   << ", height = " << s.height() << '}';
     }
 
-/*
     void to_json(json& j, const sprite& s)
     {
-        j = json{
-            {"x", s.x()},
-            {"y", s.y()},
-            {"width", s.width()},
-            {"height", s.height()}};
+        j["x"] = s.x;
+        j["y"] = s.y;
+        j["width"] = s.width();
+        j["height"] = s.height();
     }
-*/
 }
