@@ -1,20 +1,30 @@
 # Contributing to impac
 
-Hey! I’m happy that you found us and are reading this! This document is to help newcomers to our project begin to make contributions and learn more about us!
+Hey! I’m happy that you found us and are actually reading this! This document is to help newcomers to our project begin to make contributions and learn more about us!
 
 First off, here are some important resources:
 
-  * The learn more about us [the impac website](https://ethanlynn.github.io/impac/) tells you who we are
+  * To learn more about us [the impac website](https://ethanlynn.github.io/impac/) tells you who we are
   * [Our blog](https://rcos.io/projects/ethanlynn/impac/blog) talks about the status and goals of our project
   * To get in contact with us, use the [Mattermost Channel]https://chat.rcos.io/open-source/channels/impac)
   * Checkout our [code of conduct](https://github.com/ethanlynn/impac/blob/master/CODE_OF_CONDUCT.md) for some extra guidelines
   
 ## How can I contribute?
-  *Reporting bugs
-  *Suggesting improvements
-  *Fixing issues
-
-put some descriptions in 
+  * Reporting bugs
+   * We are always looking for new eyes and machines to test our code and help us make our application as robust as possible.
+   * Please file all bugs under the issue tracker and include:
+    * a) A description of the bug
+    * b) How you produced this error
+    * c) What you expected the output to be
+    * d) Information about what device you produced this behavior on
+  * Suggesting improvements
+   * Our application is always looking to add new features and improve our code base
+   * Please tells us about your idea in the feature request option under the issue tracker. Be sure to include:
+    * a) Description of the new feature
+    * b) What problem your feature is related to
+    * c) Any specific suggestions on implementation or design
+  * Fixing issues
+   * We greatly appreciate those who take the time to fix our errors and improve our program. Be sure to review the submitting changes section below to ensure that we can incorporate your work into impac!
 
 ## Submitting changes
 
