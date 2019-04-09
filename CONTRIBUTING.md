@@ -6,7 +6,7 @@ First off, here are some important resources:
 
   * To learn more about us [the impac website](https://ethanlynn.github.io/impac/) tells you who we are
   * [Our blog](https://rcos.io/projects/ethanlynn/impac/blog) talks about the status and goals of our project
-  * To get in contact with us, use the [Mattermost Channel]https://chat.rcos.io/open-source/channels/impac)
+  * To get in contact with us, use the [Mattermost Channel](https://chat.rcos.io/open-source/channels/impac)
   * Checkout our [code of conduct](https://github.com/ethanlynn/impac/blob/master/CODE_OF_CONDUCT.md) for some extra guidelines
   
 ## How can I contribute?
@@ -18,7 +18,7 @@ First off, here are some important resources:
     c) What you expected the output to be <br>
     d) Information about what device you produced this behavior on <br>
   ### Suggesting improvements
-   * Our application is always looking to add new features and improve our code base
+   * Our application is always looking to add new features and to improve our code base
    * Please tells us about your idea in the feature request option under the issue tracker. Be sure to include: <br>
      a) Description of the new feature <br>
      b) What problem your feature is related to <br>
@@ -28,9 +28,9 @@ First off, here are some important resources:
 
 ## Submitting changes
 
-Please send a [GitHub Pull Request to impac](https://github.com/ethanlynn/impac/pull/new/master) with a description of what you've done (read [pull requests](http://help.github.com/pull-requests/) for more info).
+Please send a [GitHub Pull Request](https://github.com/ethanlynn/impac/pull/new/master) with a description of what you've done (read [pull requests](http://help.github.com/pull-requests/) for more info).
 
-We also appreciate clear log messages for your commits. Quick notations fine for small changes, but bigger changes should have a longer description:
+We also appreciate clear log messages for your commits. Quick notations are fine for small changes, but bigger changes should have a longer description:
 
     $ git commit -m "A brief summary of the commit
     > 
@@ -38,7 +38,7 @@ We also appreciate clear log messages for your commits. Quick notations fine for
 
 ## Coding conventions
 
-impac is currently using the [c++ core](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) set of coding guidelines:
+impac is currently using the [C++ core](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) set of coding guidelines:
 Some of the basics include:
   * 
   *
@@ -47,5 +47,5 @@ Some of the basics include:
 
 We encourage you to pitch in and appreciate all contributions!
 
-Thanks,
+Thanks, <br>
 the impac team
