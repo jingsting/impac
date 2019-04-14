@@ -38,12 +38,7 @@ We also appreciate clear log messages for your commits. Quick notations are fine
 
 ## Coding conventions
 
-impac is currently using the [C++ core](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) set of coding guidelines:
-Some of the basics include:
-  * 
-  *
-  *
-  *
+impac is currently using the [C++ core](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines) set of coding guidelines.
 
 We encourage you to pitch in and appreciate all contributions!
 
