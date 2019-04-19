@@ -10,6 +10,10 @@
 
 namespace fs = boost::filesystem;
 
+// default width and height for the sprite sheet
+size_t DEFAUT_WIDTH = 1024;
+size_t DEFAUT_HEIGHT = 1024;
+
 // Program usage instructions.
 constexpr static auto usage = (
     "Usage:\n"
@@ -90,6 +94,8 @@ int main(int argc, const char** argv)
     // Default values for command line options.
     auto width = std::numeric_limits<size_t>::max();
     auto height = std::numeric_limits<size_t>::max();
+    size_t max_image_width = 0;
+    size_t max_image_height = 0;
     auto should_trim = true;
     auto image_path = output_path / "sprite-sheet.png";
     auto data_path = output_path / "sprite-sheet.json";
@@ -160,10 +166,17 @@ int main(int argc, const char** argv)
                 auto image = Magick::Image{};
                 image.read(entry_path.native());
                 sprite_sheet.add_sprite(entry_path.filename().native(), image);
+                max_image_width = std::max(max_image_width, image.columns());
+                max_image_height = std::max(max_image_height, image.rows());
             }
         }
     } catch (const fs::filesystem_error& error) {
         std::cerr << "Error: " << error.what() << std::endl;
+        return 1;
+    }
+
+    if (max_image_width>width || max_image_height>height) {
+        std::cerr << "Error: Some sprites exceeded sprite sheet's dimension." << std::endl;
         return 1;
     }
 
