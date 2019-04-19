@@ -93,7 +93,11 @@ namespace impac {
         auto composite_image = Magick::Image{
             {total_width, total_height}, "transparent"};
         for (const auto& [_, sprite] : sprites_) {
-            composite_image.composite(sprite.image(), sprite.x, sprite.y);
+            composite_image.composite(
+                sprite.image(),
+                sprite.x,
+                sprite.y,
+                Magick::CopyCompositeOp);
         }
         return composite_image;
     }

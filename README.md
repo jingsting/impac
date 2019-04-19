@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.com/ethanlynn/impac.svg?branch=master)](https://travis-ci.com/ethanlynn/impac)
-
 # impac
 
-Im(age) Pac(ker)
+![Sprite Sheet Example](docs/images/sprite-sheet-example.jpg)
+
+[![Build Status](https://travis-ci.com/ethanlynn/impac.svg?branch=master)](https://travis-ci.com/ethanlynn/impac)
 
 ## Description
 
@@ -10,9 +10,15 @@ This project takes individual images and creates a sprite sheet or texture atlas
 
 ## Running
 
-After building the project, go to the build directory and run:
 ```
-$ ./impac ./path/to/folder/of/images ./path/to/output
+Usage:
+  impac <input-directory> <output-directory>
+
+Options:
+  --size=<width>,<height>     The size of the sprite sheet [default: minimum size possible].
+  --image=<name>.<extension>  The name of the sprite sheet image file [default: sprite-sheet.png]
+  --data=<name>.<extension>   The name of the sprite sheet data file [default: sprite-sheet.json]
+  --algorithm=<algorithm>     The name of the packing algorithm to use [default: first-fit]
 ```
 
 ## Building

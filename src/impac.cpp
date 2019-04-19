@@ -1,123 +1,213 @@
- #include <string>
 #include <iostream>
 #include <fstream>
-#include <dirent.h>
-#include <Magick++.h>
+#include <sstream>
+#include <limits>
+#include <string>
+#include "Magick++.h"
+#include "boost/filesystem.hpp"
 #include "sprite_sheet.hpp"
-#include "pack/first_fit.hpp" 
-using namespace Magick; 
+#include "pack/first_fit.hpp"
+
+namespace fs = boost::filesystem;
+
 // default width and height for the sprite sheet
 size_t DEFAUT_WIDTH = 1024;
 size_t DEFAUT_HEIGHT = 1024;
 
+// Program usage instructions.
+constexpr static auto usage = (
+    "Usage:\n"
+    "  impac <input-directory> <output-directory>\n"
+    "\n"
+    "Options:\n"
+    "  --size=<width>,<height>     The size of the sprite sheet [default: "
+    "minimum size possible].\n"
+    "  --image=<name>.<extension>  The name of the sprite sheet image file "
+    "[default: sprite-sheet.png]\n"
+    "  --data=<name>.<extension>   The name of the sprite sheet data file "
+    "[default: sprite-sheet.json]\n"
+    "  --algorithm=<algorithm>     The name of the packing algorithm to use "
+    "[default: first-fit]\n"
+);
 
-// ./impac /pathfrom /pathto 
-// ./impac /pathfrom /pathto 600 400
-int main(int argc, const char** argv) {
-    using namespace std;
+// Array of supported image file extensions.
+constexpr static auto supported_image_extensions = {
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".bmp",
+    ".ppm",
+    ".webp",
+    ".tiff",
+    ".gif"
+};
+
+// Array of supported data file extensions.
+constexpr static auto supported_data_extensions = {
+    ".json",
+    ".xml"
+};
+
+// Array of supported algorithm names.
+constexpr static auto supported_algorithms = {
+    "first-fit"
+};
+
+// Checks whether the given file extension is a supported image file extension.
+bool is_supported_image_extension(const fs::path& extension)
+{
+    for (const auto* e : supported_image_extensions)
+        if (extension == e)
+            return true;
+    return false;
+}
+
+// Checks whether the given file extension is a supported data file extension.
+bool is_supported_data_extension(const fs::path& extension)
+{
+    for (const auto* e : supported_data_extensions)
+        if (extension == e)
+            return true;
+    return false;
+}
+
+// Checks whether the given algorithm name is a supported algorithm.
+bool is_supported_algorithm(const std::string& algorithm)
+{
+    for (const auto* a : supported_algorithms)
+        if (algorithm == a)
+            return true;
+    return false;
+}
+
+int main(int argc, const char** argv)
+{
     if (argc < 3) {
-        cerr << "ERROR: Invalid number of arguments" << endl;
+        std::cout << usage;
         return 0;
     }
 
-    // initialize lists of images and their dimensions
-    // this may not be needed
-    InitializeMagick(*argv);
-    vector<Image> images;
-    // vector<int> widths; 
-    // vector<int> heights;
-    size_t maxwidth = 0;
-    size_t maxheight = 0;
+    // Positional arguments for <input-directory> and <output-directory>.
+    const auto input_path = fs::path{argv[1]};
+    const auto output_path = fs::path{argv[2]};
 
-    // read the given directory for images
-    DIR *dir;
-    struct dirent *ent;
-    if ((dir = opendir (argv[1])) != NULL) {
-        /* print all the files and directories within directory */
-        while ((ent = readdir (dir)) != NULL) {
-            // skipping . and .. in the directory
-            if (ent->d_name[0] == '.') continue;
+    // Default values for command line options.
+    auto width = std::numeric_limits<size_t>::max();
+    auto height = std::numeric_limits<size_t>::max();
+    size_t max_image_width = 0;
+    size_t max_image_height = 0;
+    auto should_trim = true;
+    auto image_path = output_path / "sprite-sheet.png";
+    auto data_path = output_path / "sprite-sheet.json";
+    auto algorithm = std::string{"first-fit"};
 
-            //initialize the image object
-            Image img;
-
-            // read image using magick
-            string path = string(argv[1])+"/"+string(ent->d_name);
-            cout << path << endl;
-            img.read(path);
-
-            // get width and height in pixels
-            size_t width = img.columns();
-            size_t height = img.rows();        
-
-            // save image and dimensions in vectors    
-            // widths.push_back(width);
-            // heights.push_back(height);
-            images.push_back(img);
-            // printf ("%s: %d x %d \n", ent->d_name, width, height);
-
-            // update the max height and width of the images
-            if (maxwidth < width) maxwidth = width;
-            if (maxheight < height) maxheight = height;
+    // Override default values with user-specified options.
+    for (auto i = int{3}; i < argc; ++i) {
+        const auto* arg = argv[i];
+        if (std::strncmp(arg, "--size=", 7) == 0) {
+            // Parse sprite sheet size in form "--size=<width>,<height>".
+            auto ss = std::stringstream{arg + 7};
+            if (!(ss >> width)) {
+                std::cerr << "Error: Invalid argument `" << arg << "`."
+                          << std::endl;
+                return 1;
+            }
+            if (ss.peek() == ',') ss.ignore();
+            if (!(ss >> height)) {
+                std::cerr << "Error: Invalid argument `" << arg << "`."
+                          << std::endl;
+                return 1;
+            }
+            // If the user specified an exact size, we don't want to trim the
+            // sprite sheet after packing.
+            should_trim = false;
+        } else if (std::strncmp(arg, "--image=", 8) == 0) {
+            // Parse image name in form "--image=<name>.<extension>".
+            const auto* image_name = arg + 8;
+            image_path = output_path / image_name;
+            // Make sure image file extension is supported.
+            if (!is_supported_image_extension(image_path.extension())) {
+                std::cerr << "Error: Unsupported image extension "
+                          << image_path.extension() << '.' << std::endl;
+                return 1;
+            }
+        } else if (std::strncmp(arg, "--data=", 7) == 0) {
+            // Parse data name in form "--data=<name>.<extension>".
+            const auto* data_name = arg + 7;
+            data_path = output_path / data_name;
+            // Make sure data file extension is supported.
+            if (!is_supported_data_extension(data_path.extension())) {
+                std::cerr << "Error: Unsupported data extension "
+                          << data_path.extension() << '.' << std::endl;
+                return 1;
+            }
+        } else if (std::strncmp(arg, "--algorithm=", 12) == 0) {
+            algorithm = std::string{arg + 12};
+            if (!is_supported_algorithm(algorithm)) {
+                std::cerr << "Error: Unsupported algorithm '" << algorithm
+                          << "'." << std::endl;
+            }
+        } else {
+            std::cerr << "Error: Unexpected argument `" << arg << "`."
+                      << std::endl;
+            return 1;
         }
-        closedir (dir);
-    } else {
-        /* could not open directory */
-        perror ("Failed opening directory");
-        return EXIT_FAILURE;
     }
 
-    // initialize sprite sheet dimension
-    size_t sprite_width = max(maxwidth, DEFAUT_WIDTH);
-    size_t sprite_height = max(maxheight, DEFAUT_HEIGHT);
-    // size_t sprite_number = 0;
-    if (argc == 5) {
-        char *end1;
-        char *end2;
-        size_t arg_width = strtol(argv[3], &end1, 10);
-        size_t arg_height = strtol(argv[4], &end2, 10);
-        sprite_width = max(maxwidth, arg_width);
-        sprite_height = max(maxheight, arg_height);
-        if (*end1 != '\0' || *end2 != '\0') {
-            std::cout << "invalid input.\n";
-            return EXIT_FAILURE;
+    // Read images from the input directory and populate a new sprite sheet.
+    auto sprite_sheet = impac::sprite_sheet{width, height};
+    try {
+        for (const auto& entry : fs::directory_iterator{input_path}) {
+            auto entry_path = entry.path();
+            // Add the directory entry to the sprite sheet if it is a file with
+            // one of the supported image file extensions.
+            if (fs::is_regular_file(entry) &&
+                    is_supported_image_extension(entry_path.extension())) {
+                auto image = Magick::Image{};
+                image.read(entry_path.native());
+                sprite_sheet.add_sprite(entry_path.filename().native(), image);
+                max_image_width = std::max(max_image_width, image.columns());
+                max_image_height = std::max(max_image_height, image.rows());
+            }
         }
-    }
-    
-
-    // initialize sprite sheet
-    auto sprite_sheet = impac::sprite_sheet{sprite_width, sprite_height};
-    // start filling in sprite sheet
-    for (auto it = images.begin(); it != images.end(); ++it) {
-        // std::cout << ' ' << *it;
-        sprite_sheet.add_sprite((*it).fileName(), *it);
-    }
-    Image result_image;
-    if (sprite_sheet.pack(impac::pack::first_fit) == true) {
-        result_image = sprite_sheet.impac::sprite_sheet::image(true);
-    } else {
-        cout << "Failed to pack image" << endl;
-        return EXIT_FAILURE;
+    } catch (const fs::filesystem_error& error) {
+        std::cerr << "Error: " << error.what() << std::endl;
+        return 1;
     }
 
-    cout<< result_image.columns()<<"--"<<result_image.rows()<<endl;
+    if (max_image_width>width || max_image_height>height) {
+        std::cerr << "Error: Some sprites exceeded sprite sheet's dimension." << std::endl;
+        return 1;
+    }
 
-    // write to image file
-    string result_path = argv[2];
-    auto image_name = result_path + "/spritesheet.jpg";
-    result_image.write( image_name ); 
+    // Pack the sprite sheet using the given algorithm. (Only one possibility
+    // right now).
+    bool success = false;
+    try {
+        if (algorithm == "first-fit") {
+            success = sprite_sheet.pack(impac::pack::first_fit);
+        } else {
+            success = sprite_sheet.pack(impac::pack::first_fit);
+        }
+    } catch (const std::string& error) {
+        std::cerr << "Error: " << error << std::endl;
+        return 1;
+    }
+    if (!success) {
+        std::cerr << "Error: Not enough space to pack sprites." << std::endl;
+        return 1;
+    }
 
-    // write to json file
-    auto result_json = json(sprite_sheet);
-    auto json_name = result_path + "/sprite_sheet.json";
-    ofstream output (json_name, ofstream::out);
-    output << result_json;
-    output.close();
+    // Generate the output image and save it to the image path.
+    auto image = sprite_sheet.image(should_trim);
+    image.write(image_path.native());
 
-
-    // auto output = ofstream{json_name};
-    // output << result_json;
-    // output.close();
-    
-    return 0;
+    // Generate the output data and save it to the output path.
+    auto data = std::ofstream{data_path.native()};
+    if (data_path.extension() == ".json") {
+        data << json(sprite_sheet);
+    } else if (data_path.extension() == ".xml") {
+        data << "<error>UNIMPLEMENTED</error>" << std::endl;
+    }
+    data.close();
 }
