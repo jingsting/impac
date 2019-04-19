@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.com/ethanlynn/impac.svg?branch=master)](https://travis-ci.com/ethanlynn/impac)
-
 # impac
 
-Im(age) Pac(ker)
+![Sprite Sheet Example](docs/images/sprite-sheet-example.jpg)
+
+[![Build Status](https://travis-ci.com/ethanlynn/impac.svg?branch=master)](https://travis-ci.com/ethanlynn/impac)
 
 ## Description
 
