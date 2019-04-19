@@ -189,7 +189,8 @@ int main(int argc, const char** argv)
     image.write(image_path.native());
 
     // Generate the output data and save it to the output path.
-    auto data = std::ofstream{data_path.c_str()};
+    auto data = std::ofstream{};
+    data.open(data_path.native());
     if (data_path.extension() == ".json") {
         data << json(sprite_sheet);
     } else if (data_path.extension() == ".xml") {
