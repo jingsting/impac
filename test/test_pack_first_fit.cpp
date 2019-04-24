@@ -114,7 +114,7 @@ TEST_CASE("first fit equal size square tiles really big", "[first_fit]") {
     // Create an 1000x1000 sprite sheet and add 100, 100x100 identical square tiles
     auto image = Magick::Image{"100x100", "black"};
     auto sprite_sheet = impac::sprite_sheet{1000, 1000};
-    for (auto i = size_t{0}; i < 1000; ++i)
+    for (auto i = size_t{0}; i < 100; ++i)
         sprite_sheet.add_sprite(std::to_string(i), image);
 
     // Pack the sprite sheet using the first-fit algorithm
@@ -128,8 +128,8 @@ TEST_CASE("first fit equal size square tiles really big", "[first_fit]") {
     for (auto i = size_t{0}; i < 100; ++i) {
         auto sprite = sprites.at(std::to_string(i));
         // Position should be a perfect multiple of 10
-        REQUIRE(sprite.x % 10 == 0);
-        REQUIRE(sprite.y % 10 == 0);
+        REQUIRE(sprite.x % 100 == 0);
+        REQUIRE(sprite.y % 100 == 0);
         // Position should be within boundaries of sprite sheet
         REQUIRE(sprite.x >= 0);
         REQUIRE(sprite.right() <= 1000);
