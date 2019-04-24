@@ -102,7 +102,7 @@ TEST_CASE("first fit equal size square tiles big", "[first_fit]") {
         REQUIRE(sprite.x >= 0);
         REQUIRE(sprite.right() <= 100);
         REQUIRE(sprite.y >= 0);
-        REQUIRE(sprite.bottom() <= 100);
+        REQUIRE(sprite.bottom() <= 1000);
     }
 }
 
