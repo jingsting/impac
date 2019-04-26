@@ -7,6 +7,7 @@
 #include "boost/filesystem.hpp"
 #include "sprite_sheet.hpp"
 #include "pack/first_fit.hpp"
+#include "pack/first_fit_v2.hpp"
 
 namespace fs = boost::filesystem;
 
@@ -50,7 +51,8 @@ constexpr static auto supported_data_extensions = {
 
 // Array of supported algorithm names.
 constexpr static auto supported_algorithms = {
-    "first-fit"
+    "first-fit",
+    "first-fit-v2"
 };
 
 // Checks whether the given file extension is a supported image file extension.
@@ -186,6 +188,8 @@ int main(int argc, const char** argv)
     try {
         if (algorithm == "first-fit") {
             success = sprite_sheet.pack(impac::pack::first_fit);
+        } else if (algorithm == "first-fit-v2") {
+            success = sprite_sheet.pack(impac::pack::first_fit_v2);
         } else {
             success = sprite_sheet.pack(impac::pack::first_fit);
         }
