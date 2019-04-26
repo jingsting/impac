@@ -66,10 +66,28 @@ TEST_CASE("first fit equal size rectangle tiles", "[first_fit]") {
     }
 }
 
-TEST_CASE("first fit not enough space", "[first_fit]") {
+TEST_CASE("first fit not enough space 1", "[first_fit]") {
     // Algorithm should fail if there isn't enough space available
     auto image = Magick::Image{"100x100", "black"};
     auto sprite_sheet = impac::sprite_sheet{10, 10};
+    sprite_sheet.add_sprite("image", image);
+    REQUIRE(sprite_sheet.pack(impac::pack::first_fit) == false);
+}
+
+TEST_CASE("first fit not enough space 2", "[first_fit]") {
+    // Algorithm should fail if there isn't enough space available
+    auto image = Magick::Image{"10x11", "black"};
+    auto sprite_sheet = impac::sprite_sheet{10, 10};
+    sprite_sheet.add_sprite("image", image);
+    REQUIRE(sprite_sheet.pack(impac::pack::first_fit) == false);
+}
+
+TEST_CASE("first fit not enough space 3", "[first_fit]") {
+    // Algorithm should fail if there isn't enough space available
+    auto image = Magick::Image{"1x2", "black"};
+    auto sprite_sheet = impac::sprite_sheet{10, 10};
+    for (auto i = size_t{0}; i < 10; ++i)
+        sprite_sheet.add_sprite(std::to_string(i), image);
     sprite_sheet.add_sprite("image", image);
     REQUIRE(sprite_sheet.pack(impac::pack::first_fit) == false);
 }
