@@ -41,7 +41,7 @@ bool impac::pack::first_fit_v2(sprite_sheet& sprite_sheet)
             for (auto x = size_t{0}; x < sprite_sheet.width(); ++x) {
                 auto lfits = true;
                 for (auto y = h; y < (h+sprite->height()); ++y) {
-                    if (canvas[x][y] != 0) {
+                    if (canvas[y][x] != 0) {
                         lfits = false;
                         break;
                     }
@@ -59,7 +59,7 @@ bool impac::pack::first_fit_v2(sprite_sheet& sprite_sheet)
                     sprite->set_position(startx, starty);
                     for (auto w = startx; w<(startx+sprite->width()); ++w) {
                         for (auto h = starty; h<(starty+sprite->height()-1); ++h) {
-                            canvas[w][h] = 1;
+                            canvas[h][w] = 1;
                         }
                     }
                     break;

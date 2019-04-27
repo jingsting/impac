@@ -12,8 +12,8 @@
 namespace fs = boost::filesystem;
 
 // default width and height for the sprite sheet
-size_t DEFAUT_WIDTH = 1024;
-size_t DEFAUT_HEIGHT = 1024;
+size_t DEFAUT_WIDTH = 2048;
+size_t DEFAUT_HEIGHT = 2048;
 
 // Program usage instructions.
 constexpr static auto usage = (
@@ -94,8 +94,8 @@ int main(int argc, const char** argv)
     const auto output_path = fs::path{argv[2]};
 
     // Default values for command line options.
-    auto width = std::numeric_limits<size_t>::max();
-    auto height = std::numeric_limits<size_t>::max();
+    auto width = DEFAUT_WIDTH;
+    auto height = DEFAUT_HEIGHT;
     size_t max_image_width = 0;
     size_t max_image_height = 0;
     auto should_trim = true;
