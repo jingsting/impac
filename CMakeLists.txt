@@ -33,6 +33,7 @@ add_library(libimpac
     src/sprite.cpp
     src/sprite_sheet.cpp
     src/pack/first_fit.cpp
+    src/pack/first_fit_v2.cpp
     )
 target_compile_options(libimpac PRIVATE -Wall)
 target_compile_features(libimpac PUBLIC cxx_std_17)
